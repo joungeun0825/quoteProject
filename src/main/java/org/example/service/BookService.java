@@ -35,4 +35,8 @@ public class BookService {
     public List<Book> findByPublisher(String publisher){
         return bookRepository.findByPublisher(publisher);
     }
+    @Transactional(readOnly = true)
+    public Book selectBook(Long bookId){
+        return bookRepository.selectBook(bookId);
+    }
 }

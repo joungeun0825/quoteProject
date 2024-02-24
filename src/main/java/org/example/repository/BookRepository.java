@@ -44,5 +44,11 @@ public class BookRepository {
                 .getResultList();
         return result;
     }
+    public Book selectBook(Long bookId){
+        Book result = em.createQuery("select b from Book b where b.id=:bookId", Book.class)
+                .setParameter("bookId", bookId)
+                .getSingleResult();
+        return result;
+    }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -17,10 +18,7 @@ public class QuoteController {
     private final QuoteService quoteService;
 
     @PostMapping("/quotes")
-    public ResponseEntity<Quote> postQuote(@RequestBody AddQuoteRequest request) {
-        Quote savedQuote = quoteService.save(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedQuote);
+    public void postQuote(@RequestParam("bookId") Long bookId, @RequestBody AddQuoteRequest request) {
+        quoteService.save(bookId, request);
     }
 }
