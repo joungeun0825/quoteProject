@@ -10,6 +10,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Entity
@@ -19,6 +22,9 @@ public class Book {
     @GeneratedValue
     @Column(name = "book_id", updatable = false)
     private Long id;
+
+    @OneToMany(mappedBy = "book")
+    private List<Quote> quotes = new ArrayList<>();
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -38,7 +44,8 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(String title, String author, String publisher) {
+    public Book(List<Quote> quotes, String title, String author, String publisher) {
+        this.quotes = quotes;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
