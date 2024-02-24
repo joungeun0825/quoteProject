@@ -20,10 +20,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/books")
-    public ResponseEntity<Book> postBook(@RequestBody AddBookRequest request) {
-        Book savedBook = bookService.save(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedBook);
+    public void postBook(@RequestBody AddBookRequest request) {
+        bookService.save(request);
     }
 }
