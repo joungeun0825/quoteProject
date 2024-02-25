@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="bodyHeader :: bodyHeader"/>
+    <div>
+        <div>
+            <form class="form-inline">
+                <div class="form-group mb-2">
+                    <input type="text" id="title" placeholder="책 제목"/>
+                </div>
+
+                <br/>
+
+                <div class="form-group mb-2">
+                    <input type="text" id="author" placeholder="저자"/>
+                </div>
+
+                <br/>
+
+                <div class="form-group mb-2">
+                    <input type="text" id="publisher" placeholder="출판사"/>
+                </div>
+
+                <br/>
+
+                <button id="book-create-btn" type="submit"  class="btn btn-primary mb-2">책 등록</button>
+            </form>
+        </div>
+    </div>
+    <div th:replace="footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script>
+const bookCreateButton = document.getElementById('book-create-btn');
+
+if (bookCreateButton) {
+    bookCreateButton.addEventListener('click', event => {
+        fetch(`/books`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                publisher: document.getElementById('publisher').value
+            })
+        })
+            .then(() => {
+                alert('등록 완료되었습니다.');
+                location.replace(`/books`);
+            });
+    });
+}
+</script>
+</html>

@@ -3,9 +3,7 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.domain.Book;
 import org.example.dto.AddBookRequest;
-import org.example.dto.BookResponse;
 import org.example.repository.BookRepository;
-import org.example.repository.BookSearch;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

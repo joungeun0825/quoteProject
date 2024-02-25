@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="bodyHeader :: bodyHeader"/>
+    <div>
+        <div>
+            <form class="form-inline">
+                <div class="form-group mx-sm-1 mb-2">
+                    <select id="searchCategory">
+                        <option value="title">Title</option>
+                        <option value="publisher">Publisher</option>
+                        <option value="author">Author</option>
+                    </select>
+                </div>
+                <div class="form-group mb-2">
+                    <input type="text" id="searchText"/>
+                </div>
+                <button id="search-btn" type="submit"  class="btn btn-primary mb-2">Search</button>
+            </form>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>책 제목</th>
+                <th>저자</th>
+                <th>출판사</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${books}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.title}"></td>
+                <td th:text="${item.author}"></td>
+                <td th:text="${item.publisher}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script>
+const searchButton = document.getElementById('search-btn');
+
+if (searchButton) {
+    searchButton.addEventListener('click', event => {
+        var searchCategory = document.getElementById('searchCategory').value;
+        var searchText = document.getElementById('searchText').value;
+        fetch(`/books?${searchCategory}=${searchText}`, {
+            method: 'GET'
+        })
+            .then(() => {
+                location.replace(`/books?${searchCategory}=${searchText}`);
+            });
+    });
+}
+</script>
+</html>
