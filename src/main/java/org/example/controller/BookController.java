@@ -51,9 +51,9 @@ public class BookController {
 
 
     @GetMapping("/books/{bookId}")
-    public ResponseEntity<Book> selectBook(@PathVariable("bookId") Long bookId){
+    public String selectBook(@PathVariable("bookId") Long bookId, Model model){
         Book book = bookService.selectBook(bookId);
-        return ResponseEntity.ok()
-                .body(book);
+        model.addAttribute("book", book);
+        return "createQuote";
     }
 }

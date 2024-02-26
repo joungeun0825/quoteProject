@@ -36,6 +36,9 @@
                 <td th:text="${item.title}"></td>
                 <td th:text="${item.author}"></td>
                 <td th:text="${item.publisher}"></td>
+                <td>
+                    <a th:href="@{/books/{id}/quotes(id=${item.id})}" class="btn btn-primary">보러가기</a>
+                </td>
             </tr>
             </tbody>
         </table>

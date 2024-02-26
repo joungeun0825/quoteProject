@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"/>
+<body>
+<div class="container">
+  <div th:replace="bodyHeader :: bodyHeader"/>
+  <div>
+    <div>
+      <input type="hidden" id="bookId" th:value="${book.id}" />
+      <form class="form-inline">
+        <div class="form-group mb-2">
+          <input type="text" id="content" placeholder="       이 구절이 좋아요!       "/>
+        </div>
+
+        <br/>
+
+        <div class="form-group mb-2">
+          <input type="text" id="page" placeholder="page"/>
+        </div>
+
+        <button id="quote-create-btn" type="submit"  class="btn btn-primary mb-2">등록</button>
+      </form>
+    </div>
+  </div>
+  <div th:replace="footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script>
+const quoteCreateButton = document.getElementById('quote-create-btn');
+
+if (quoteCreateButton) {
+    quoteCreateButton.addEventListener('click', event => {
+        var bookId = document.getElementById('bookId').value;
+        fetch(`/books/${bookId}/quotes`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                content: document.getElementById('content').value,
+                page: parseInt(document.getElementById('page').value)
+            })
+        })
+            .then(() => {
+                alert('등록 완료되었습니다.');
+                location.replace(`/books/${bookId}/quotes`);
+            });
+    });
+}
+</script>
+</html>

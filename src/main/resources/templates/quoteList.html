@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"/>
+<body>
+<div class="container">
+  <div th:replace="bodyHeader :: bodyHeader"/>
+  <div>
+    <div>
+      <input type="hidden" id="bookId" th:value="${book.id}" />
+      <form class="form-inline">
+        <div class="form-group mx-sm-1 mb-2">
+          <select id="searchCategory">
+            <option value="content">Content</option>
+            <option value="page">Page</option>
+          </select>
+        </div>
+        <div class="form-group mb-2">
+          <input type="text" id="searchText"/>
+        </div>
+        <button id="search-btn" type="submit"  class="btn btn-primary mb-2">Search</button>
+      </form>
+    </div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>content</th>
+        <th>page</th>
+        <th>createAt</th>
+        <th>updatedAt</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${quotes}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.content}"></td>
+        <td th:text="${item.page}"></td>
+        <td th:text="${item.createdAt}"></td>
+        <td th:text="${item.updatedAt}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:replace="footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script>
+const searchButton = document.getElementById('search-btn');
+
+if (searchButton) {
+    searchButton.addEventListener('click', event => {
+        var bookId = document.getElementById('bookId').value
+        var searchCategory = document.getElementById('searchCategory').value;
+        var searchText = document.getElementById('searchText').value;;
+        fetch(`/books/${bookId}/quotes?${searchCategory}=${searchText}`, {
+            method: 'GET'
+        })
+        .then(() => {
+            location.replace(`/books/${bookId}/quotes?${searchCategory}=${searchText}`);
+        });
+    });
+}
+</script>
+</html>

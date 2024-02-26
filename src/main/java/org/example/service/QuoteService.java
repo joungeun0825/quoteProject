@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.example.domain.Book;
 
+import java.util.List;
+
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -22,5 +24,17 @@ public class QuoteService {
         quote.setBook(book);
 
         quoteRepository.save(quote);
+    }
+    @Transactional(readOnly = true)
+    public List<Quote> findAll(){
+        return quoteRepository.findAll();
+    }
+    @Transactional(readOnly = true)
+    public List<Quote> findByContent(String content){
+        return quoteRepository.findByContent(content);
+    }
+    @Transactional(readOnly = true)
+    public List<Quote> findByPage(Integer page){
+        return quoteRepository.findByPage(page);
     }
 }
