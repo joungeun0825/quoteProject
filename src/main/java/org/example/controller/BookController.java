@@ -16,12 +16,12 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
-    @PostMapping("/books")
+    @PostMapping("/api/books")
     public void postBook(@RequestBody AddBookRequest request) {
         bookService.save(request);
     }
 
-    @GetMapping("/books")
+    @GetMapping("/api/books")
     public String getBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
@@ -50,7 +50,7 @@ public class BookController {
     }
 
 
-    @GetMapping("/books/{bookId}")
+    @GetMapping("/api/books/{bookId}")
     public String selectBook(@PathVariable("bookId") Long bookId, Model model){
         Book book = bookService.selectBook(bookId);
         model.addAttribute("book", book);

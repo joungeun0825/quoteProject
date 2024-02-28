@@ -37,7 +37,7 @@
                 <td th:text="${item.author}"></td>
                 <td th:text="${item.publisher}"></td>
                 <td>
-                    <a th:href="@{/books/{id}/quotes(id=${item.id})}" class="btn btn-primary">보러가기</a>
+                    <a th:href="@{/api/books/{id}/quotes(id=${item.id})}" class="btn btn-primary">보러가기</a>
                 </td>
             </tr>
             </tbody>
@@ -53,11 +53,11 @@ if (searchButton) {
     searchButton.addEventListener('click', event => {
         var searchCategory = document.getElementById('searchCategory').value;
         var searchText = document.getElementById('searchText').value;
-        fetch(`/books?${searchCategory}=${searchText}`, {
+        fetch(`/api/books?${searchCategory}=${searchText}`, {
             method: 'GET'
         })
             .then(() => {
-                location.replace(`/books?${searchCategory}=${searchText}`);
+                location.replace(`/api/books?${searchCategory}=${searchText}`);
             });
     });
 }

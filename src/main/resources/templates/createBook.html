@@ -37,7 +37,7 @@ const bookCreateButton = document.getElementById('book-create-btn');
 
 if (bookCreateButton) {
     bookCreateButton.addEventListener('click', event => {
-        fetch(`/books`, {
+        fetch(`/api/books`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -50,7 +50,7 @@ if (bookCreateButton) {
         })
             .then(() => {
                 alert('등록 완료되었습니다.');
-                location.replace(`/books`);
+                location.replace(`/api/books`);
             });
     });
 }

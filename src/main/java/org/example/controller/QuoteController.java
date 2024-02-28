@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,12 +20,12 @@ import java.util.List;
 public class QuoteController {
     private final QuoteService quoteService;
     private final BookService bookService;
-    @PostMapping("/books/{bookId}/quotes")
-    public void postQuote(@PathVariable("bookId") Long bookId, @RequestBody AddQuoteRequest request
+    @PostMapping("/api/books/{bookId}/quotes")
+    public void postQuote(@PathVariable("bookId") Long bookId, @RequestBody AddQuoteRequest request, Principal principal
     ) {
-        quoteService.save(bookId, request);
+        quoteService.save(bookId, request, principal.getName());
     }
-    @GetMapping("/books/{bookId}/quotes")
+    @GetMapping("/api/books/{bookId}/quotes")
     public String getQuote(@PathVariable("bookId") Long bookId,
                            @RequestParam(required = false) String content,
                            @RequestParam(required = false) Integer page,
