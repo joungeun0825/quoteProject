@@ -1,3 +1,4 @@
+spring.main.allow-bean-definition-overriding: true
 spring:
   jpa:
     defer-datasource-initialization: true
@@ -14,3 +15,18 @@ spring:
     console:
       enable: true
       path: /h2-console
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 283495510191-87l0211f159o565vjg7bkmpv5thlpoit.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+jwt:
+  issuer: joungeun@gmail.com
+  secret_key: study_springboot
+

@@ -13,10 +13,11 @@ public class AddQuoteRequest {
     private String content;
     private Integer page;
 
-    public Quote toEntity(){//생성자를 사용해 객체 생성
+    public Quote toEntity(String writer){//생성자를 사용해 객체 생성
         return Quote.builder()
                 .content(content)
                 .page(page)
+                .writer(writer)
                 .build();
     }
 }

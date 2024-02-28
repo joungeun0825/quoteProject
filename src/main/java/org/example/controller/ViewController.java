@@ -13,7 +13,7 @@ public class ViewController {
     public String home(){
         return "home";
     }
-    @GetMapping("/create/book")
+    @GetMapping("/api/books/create")
     public String createBookView(){
         return "createBook";
     }

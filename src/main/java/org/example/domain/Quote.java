@@ -23,6 +23,10 @@ public class Quote {
     @GeneratedValue
     @Column(name = "quote_id", updatable = false)
     private Long id;
+
+    @Column(name="writer", nullable = false)
+    private String writer;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="book_id")
@@ -43,7 +47,8 @@ public class Quote {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Quote(String content, Integer page){
+    public Quote(String writer, String content, Integer page){
+        this.writer = writer;
         this.content = content;
         this.page = page;
     }

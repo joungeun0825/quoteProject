@@ -18,9 +18,9 @@ public class QuoteService {
     private final QuoteRepository quoteRepository;
     private final BookRepository bookRepository;
 
-    public void save(Long bookId, AddQuoteRequest request){
+    public void save(Long bookId, AddQuoteRequest request,String writer){
         Book book = bookRepository.selectBook(bookId);
-        Quote quote = request.toEntity();
+        Quote quote = request.toEntity(writer);
         quote.setBook(book);
 
         quoteRepository.save(quote);

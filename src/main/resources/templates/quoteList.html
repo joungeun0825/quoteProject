@@ -24,6 +24,7 @@
       <thead>
       <tr>
         <th>#</th>
+        <th>writer</th>
         <th>content</th>
         <th>page</th>
         <th>createAt</th>
@@ -34,6 +35,7 @@
       <tbody>
       <tr th:each="item : ${quotes}">
         <td th:text="${item.id}"></td>
+        <td th:text="${item.writer}"></td>
         <td th:text="${item.content}"></td>
         <td th:text="${item.page}"></td>
         <td th:text="${item.createdAt}"></td>
@@ -53,11 +55,11 @@ if (searchButton) {
         var bookId = document.getElementById('bookId').value
         var searchCategory = document.getElementById('searchCategory').value;
         var searchText = document.getElementById('searchText').value;;
-        fetch(`/books/${bookId}/quotes?${searchCategory}=${searchText}`, {
+        fetch(`/api/books/${bookId}/quotes?${searchCategory}=${searchText}`, {
             method: 'GET'
         })
         .then(() => {
-            location.replace(`/books/${bookId}/quotes?${searchCategory}=${searchText}`);
+            location.replace(`/api/books/${bookId}/quotes?${searchCategory}=${searchText}`);
         });
     });
 }
