@@ -63,8 +63,8 @@
 <body>
 <div class="container">
     <div class="header">
-        <a href="#" class="my page">my page</a>
-        <a href="/login" class="login">login</a>
+        <a href="/signUp" class="signup">SignUp</a>
+        <a href="/login" class="login">Login</a>
     </div>
     <div>
         <div class="form-inline">
@@ -89,83 +89,12 @@ if (searchButton) {
     searchButton.addEventListener('click', event => {
         var searchCategory = document.getElementById('searchCategory').value;
         var searchText = document.getElementById('searchText').value;
-        function success() {
-            location.replace(`/api/books?${searchCategory}=${searchText}`);
-        };
-        function fail() {
-            alert('등록 실패했습니다.');
-            location.replace(`/api`);
-        };
-        httpRequest('GET',`/api/books?${searchCategory}=${searchText}`, success, fail)
-    });
-
-}
-
-// 쿠키를 가져오는 함수
-function getCookie(key) {
-    var result = null;
-    var cookie = document.cookie.split(';');
-    cookie.some(function (item) {
-        item = item.replace(' ', '');
-
-        var dic = item.split('=');
-
-        if (key === dic[0]) {
-            result = dic[1];
-            return true;
-        }
-    });
-
-    return result;
-}
-
-// HTTP 요청을 보내는 함수
-function httpRequest(method, url, success, fail) {
-    fetch(url, {
-        method: method,
-        headers: { // 로컬 스토리지에서 액세스 토큰 값을 가져와 헤더에 추가
-            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-            'Content-Type': 'application/json',
-        },
-    }).then(response => {
-        if (response.status === 200 || response.status === 201) {
-            return success();
-        }
-        const refresh_token = getCookie('refresh_token');
-        if (refresh_token) {
-            alert('refresh');
-        }
-        if(response.status === 401){
-            alert('401');
-        }
-        if(localStorage.getItem('access_token')==null){
-            alert('not access_token')
-        }
-        if (response.status === 401 && refresh_token) {
-            fetch('/api/token', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    refreshToken: getCookie('refresh_token'),
-                }),
-            })
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                })
-                .then(result => { // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
-                    alert('result')
-                    localStorage.setItem('access_token', result.accessToken);
-                    httpRequest(method, url, success, fail);
-                })
-                .catch(error => fail());
-        } else {
-            return fail();
-        }
+        fetch(`/api/books?${searchCategory}=${searchText}`, {
+            method: 'GET'
+        })
+            .then(() => {
+                location.replace(`/api/books?${searchCategory}=${searchText}`);
+            });
     });
 }
 

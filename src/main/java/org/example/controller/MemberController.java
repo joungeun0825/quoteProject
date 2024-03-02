@@ -26,9 +26,9 @@ public class MemberController {
         memberService.signUp(memberSignUpDto);
     }
 
+
     /**
-     * 회원정보수정
-     */
+     //회원정보수정
     @PutMapping("/member")
     @ResponseStatus(HttpStatus.OK)
     public void updateBasicInfo(@Valid @RequestBody MemberUpdateDto memberUpdateDto) throws Exception {

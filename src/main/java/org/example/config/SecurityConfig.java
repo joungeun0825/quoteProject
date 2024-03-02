@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -32,6 +35,14 @@ public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
+
+    @Bean
+    public WebSecurityCustomizer configure() {
+        return (web) -> web.ignoring()
+                .requestMatchers(toH2Console())
+                .requestMatchers("/img/**", "/css/**", "/js/**");
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -42,7 +53,7 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .requestMatchers("/login", "/signUp","/").permitAll()
+                .requestMatchers("/login", "/signUp","/","/api/books").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class);

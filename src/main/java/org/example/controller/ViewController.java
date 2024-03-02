@@ -17,7 +17,10 @@ public class ViewController {
     public String createBookView(){
         return "createBook";
     }
-
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
 
 }
