@@ -1,31 +1,106 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="header :: header"/>
+
+<head>
+  <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F2F2F0;
+        }
+
+        .header {
+            background-color: #F2F2F0;
+            padding: 15px;
+            text-align: right;
+            border-bottom: 2px solid #000000;
+        }
+
+        .header a {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+        }
+
+        .header a:hover {
+            background-color: #F2F2F0;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-group {
+            margin: 10px;
+        }
+
+        #content {
+            width: 500px;
+            height: 300px;
+            text-align: center;
+            font-size: 16px;
+            background-color: #F2F2F0;
+            border: 2px solid #000000;
+        }
+
+        #page {
+            width: 500px;
+            background-color: #F2F2F0;
+            border: none;
+            border-bottom: 2px solid #000000;
+            padding: 8px;
+            margin-bottom: 20px;
+        }
+
+        #quote-create-btn {
+            border: 2px solid #000000;
+            background-color: #F2F2F0;
+            padding: 4px;
+            margin-left: 10px;
+        }
+        #book-info {
+            width: 500px;
+            margin-top: 20px;
+            border-bottom: 2px solid #000000;
+            font-size: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
 <body>
 <div class="container">
-  <div th:replace="bodyHeader :: bodyHeader"/>
-  <div>
-    <div>
-      <input type="hidden" id="bookId" th:value="${book.id}" />
-      <form class="form-inline">
-        <div class="form-group mb-2">
-          <input type="text" id="content" placeholder="       이 구절이 좋아요!       "/>
-        </div>
-
-        <br/>
-
-        <div class="form-group mb-2">
-          <input type="text" id="page" placeholder="page"/>
-        </div>
-
-        <button id="quote-create-btn" type="submit"  class="btn btn-primary mb-2">등록</button>
-      </form>
-    </div>
+  <div class="header">
+    <a href="/signUp" class="signup">SignUp</a>
+    <a href="/login" class="login">Login</a>
   </div>
-  <div th:replace="footer :: footer"/>
-</div> <!-- /container -->
+  <div class="form-container">
+    <input type="hidden" id="bookId" th:value="${book.id}" />
+    <div id="book-info">
+      title: <td th:text="${book.title}"></td>  author: <td th:text="${book.author}"></td>  publisher: <td th:text="${book.publisher}"></td>
+    </div>
+    <form class="form-inline">
+      <div class="form-group">
+        <input type="text" id="page" placeholder="page" />
+      </div>
+      <div class="form-group">
+        <input type="text" id="content"/>
+      </div>
+      <button id="quote-create-btn" type="submit" class="btn btn-primary">등록</button>
+
+
+    </form>
+  </div>
+</div>
+<!-- /container -->
 </body>
+
 <script>
+
 const token = searchParam('token')
 
 if (token) {
@@ -35,26 +110,31 @@ if (token) {
 function searchParam(key) {
     return new URLSearchParams(location.search).get(key);
 }
+
 const quoteCreateButton = document.getElementById('quote-create-btn');
+var bookId = document.getElementById('bookId').value;
 
 if (quoteCreateButton) {
     quoteCreateButton.addEventListener('click', event => {
-        var bookId = document.getElementById('bookId').value;
-        body: JSON.stringify({
+        body = JSON.stringify({
                 content: document.getElementById('content').value,
-                page: parseInt(document.getElementById('page').value)
-        });
+                page: document.getElementById('page').value
+        })
+
         function success() {
             alert('등록 완료되었습니다.');
-            location.replace(`/api/books/${bookId}/quotes`);
-        };
+            location.replace(`/books/${bookId}/quotes`);
+        }
+
         function fail() {
             alert('등록 실패했습니다.');
-            location.replace(`/api/books/${bookId}/quotes`);
-        };
-        httpRequest('POST',`/api/books/${bookId}/quotes`, body, success, fail)
+            location.replace(`/books/${bookId}/quotes`);
+        }
+
+        httpRequest('POST',`/api/books/${bookId}/quotes`, body, success, fail);
     });
 }
+
 // 쿠키를 가져오는 함수
 function getCookie(key) {
     var result = null;
@@ -83,10 +163,15 @@ function httpRequest(method, url, body, success, fail) {
         },
         body: body,
     }).then(response => {
+        if(localStorage.getItem('access_token')!=null){
+          alert('토큰이 있습니다.');
+        }
         if (response.status === 200 || response.status === 201) {
-            return success();
+            alert('등록 완료되었습니다.');
+            location.replace(`/books/${bookId}/quotes`);
         }
         const refresh_token = getCookie('refresh_token');
+
         if (response.status === 401 && refresh_token) {
             fetch('/api/token', {
                 method: 'POST',
@@ -107,9 +192,9 @@ function httpRequest(method, url, body, success, fail) {
                     localStorage.setItem('access_token', result.accessToken);
                     httpRequest(method, url, body, success, fail);
                 })
-                .catch(error => fail());
+                .catch(error => location.replace(`/books/${bookId}/quotes`));
         } else {
-            return fail();
+            location.replace(`/books/${bookId}/quotes`);
         }
     });
 }

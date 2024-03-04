@@ -1,39 +1,26 @@
-
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-
-  h2:
-    console:
-      enable: true
-      path: /h2-console
-
   jpa:
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
-        user_sql_cooments: true
-
-    hibernate:
-      ddl-auto: create
-
-
-  profiles:
-    include: jwt
-
-
-
-logging:
-  level:
-    org:
-      apache:
-        coyote:
-          http11: debug
-
-      hiberante:
-        SQL: debug
-
-    boardexample:
-      myboard: info
-
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+  h2:
+    console:
+      enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 67001926678-4q0a37ookmolg3itok7f0thjjif6v539.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+jwt:
+  issuer: ajufresh@gmail.com
+  secret_key: study-springboot
