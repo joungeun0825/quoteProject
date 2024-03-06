@@ -81,7 +81,7 @@
   <div class="form-container">
     <input type="hidden" id="bookId" th:value="${book.id}" />
     <div id="book-info">
-      title: <td th:text="${book.title}"></td>  author: <td th:text="${book.author}"></td>  publisher: <td th:text="${book.publisher}"></td>
+      TITLE: <td th:text="${book.title}"></td>  AUTHOR: <td th:text="${book.author}"></td>  PUBLISHER: <td th:text="${book.publisher}"></td>
     </div>
     <form class="form-inline">
       <div class="form-group">
@@ -91,8 +91,6 @@
         <input type="text" id="content"/>
       </div>
       <button id="quote-create-btn" type="submit" class="btn btn-primary">등록</button>
-
-
     </form>
   </div>
 </div>
@@ -121,17 +119,43 @@ if (quoteCreateButton) {
                 page: document.getElementById('page').value
         })
 
-        function success() {
-            alert('등록 완료되었습니다.');
-            location.replace(`/books/${bookId}/quotes`);
-        }
-
-        function fail() {
-            alert('등록 실패했습니다.');
-            location.replace(`/books/${bookId}/quotes`);
-        }
-
         httpRequest('POST',`/api/books/${bookId}/quotes`, body, success, fail);
+    });
+}
+
+// HTTP 요청을 보내는 함수
+function httpRequest(method, url, body, success, fail) {
+    fetch(url, {
+        method: method,
+        headers: { // 로컬 스토리지에서 액세스 토큰 값을 가져와 헤더에 추가
+            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+        },
+        body: body,
+    }).then(response => {
+        if (response.status === 200 || response.status === 201) {
+            success();
+        }
+        const refresh_token = getCookie('refresh_token');
+
+        if (response.status === 401 && refresh_token) {
+            fetch('/api/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    refreshToken: getCookie('refresh_token'),
+                }),
+            }).then(result => { // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
+                    localStorage.setItem('access_token', result.accessToken);
+                    alert('access_token')
+                    httpRequest(method, url, body, success, fail);
+                })
+                .catch(error => fail());
+        } else {
+            fail();
+        }
     });
 }
 
@@ -149,54 +173,16 @@ function getCookie(key) {
             return true;
         }
     });
-
     return result;
 }
-
-// HTTP 요청을 보내는 함수
-function httpRequest(method, url, body, success, fail) {
-    fetch(url, {
-        method: method,
-        headers: { // 로컬 스토리지에서 액세스 토큰 값을 가져와 헤더에 추가
-            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-            'Content-Type': 'application/json',
-        },
-        body: body,
-    }).then(response => {
-        if(localStorage.getItem('access_token')!=null){
-          alert('토큰이 있습니다.');
-        }
-        if (response.status === 200 || response.status === 201) {
+function success() {
             alert('등록 완료되었습니다.');
             location.replace(`/books/${bookId}/quotes`);
-        }
-        const refresh_token = getCookie('refresh_token');
+}
 
-        if (response.status === 401 && refresh_token) {
-            fetch('/api/token', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    refreshToken: getCookie('refresh_token'),
-                }),
-            })
-                .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
-                })
-                .then(result => { // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
-                    localStorage.setItem('access_token', result.accessToken);
-                    httpRequest(method, url, body, success, fail);
-                })
-                .catch(error => location.replace(`/books/${bookId}/quotes`));
-        } else {
+function fail() {
+            alert('등록 실패했습니다.');
             location.replace(`/books/${bookId}/quotes`);
-        }
-    });
 }
 </script>
 </html>

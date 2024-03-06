@@ -83,7 +83,6 @@
   </div>
   <div>
     <div class="form-inline">
-      <input type="hidden" id="bookId" th:value="${book.id}" />
       <form>
         <select id="searchCategory">
           <option value="content">Content</option>
@@ -127,38 +126,4 @@
   </div>
 </div> <!-- /container -->
 </body>
-<script>
-const searchButton = document.getElementById('search-btn');
-
-if (searchButton) {
-    searchButton.addEventListener('click', event => {
-        var bookId = document.getElementById('bookId').value
-        var searchCategory = document.getElementById('searchCategory').value;
-        var searchText = document.getElementById('searchText').value;;
-        fetch(`/books/${bookId}/quotes?${searchCategory}=${searchText}`, {
-            method: 'GET'
-        })
-        .then(() => {
-            location.replace(`/books/${bookId}/quotes?${searchCategory}=${searchText}`);
-        });
-    });
-}
-
-const addButton = document.getElementById('add-btn');
-
-if (addButton) {
-    addButton.addEventListener('click', async event => {
-        var bookId = document.getElementById('bookId').value
-        try {
-            await fetch(`/books/${bookId}/quotes/create`, {
-                method: 'GET'
-            });
-            // 여기서 location.replace를 호출
-            location.replace(`/books/${bookId}/quotes/create`);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
-}
-</script>
 </html>
