@@ -1,10 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F2F2F0;
+        }
+        .header {
+            background-color: #F2F2F0;
+            padding: 15px;
+            border-bottom: 2px solid #000000;
+        }
+        #createBook{
+           color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+        #quotes{
+           color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            padding-right: 410px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+        #home{
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            padding-right: 480px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+
+        #myPage {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+        #login {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+        #logout {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+
+        .inline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 50%; /* 조절 가능한 table width 값 */
+            margin-top: 20px; /* 조절 가능한 margin 값 */
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 2px solid #000000; /* 테두리 선 추가 */
+            padding: 8px; /* 셀 안의 여백 추가 */
+        }
+        th {
+            background-color: #F2F2F0; /* 헤더 배경색 지정 */
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <a id="createBook" href="/books/create">Create Book</a>
+        <a id="quotes" href="/quotes">All Quotes</a>
+        <a id="home" href="/">Home</a>
+        <a id="myPage" href="/myPage">MyPage</a>
+        <th:block th:if="${loggedIn}">
+            <a id="logout" href="/" class="login">Logout</a>
+        </th:block>
+        <th:block th:unless="${loggedIn}">
+            <a id="login" href="/login" class="logout">LogIn</a>
+        </th:block>
+    </div>
+    <div>
+        <div class="inline">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>TITLE</th>
+                    <td th:text="${quote.book.title}"></td>
+                </tr>
+                <tr>
+                    <th>PAGE</th>
+                    <td th:text="${quote.page}"></td>
+                </tr>
+                <tr>
+                    <th>AUTHOR</th>
+                    <td th:text="${quote.user.nickname}"></td>
+                </tr>
+                </thead>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td th:text="${quote.content}"></td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /container -->
 </body>
+<script>
+  //로그아웃
+    document.getElementById('logout').addEventListener('click', function(event) {
+    event.preventDefault(); // 기본 동작인 링크 이동을 막음
+    localStorage.removeItem("access_token");
+    document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = '/';
+});
+</script>
 </html>

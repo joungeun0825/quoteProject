@@ -9,23 +9,65 @@
         .header {
             background-color: #F2F2F0;
             padding: 15px;
-            text-align: right;
             border-bottom: 2px solid #000000;
         }
+        #createBook{
+           color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+        #quotes{
+           color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            padding-right: 410px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
+        #home{
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            padding-right: 480px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
 
-        .header a {
+        #myPage {
             color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
             border-radius: 5px;
             background-color: #F2F2F0;
+            font-size: 18px;
         }
-
-        .header a:hover {
+        #login {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
             background-color: #F2F2F0;
+            font-size: 18px;
         }
-
+        #logout {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #F2F2F0;
+            font-size: 18px;
+        }
         .form-inline {
             display: flex;
             flex-direction: column;
@@ -77,8 +119,16 @@
 <body>
 <div class="container">
     <div class="header">
-        <a href="/signUp" class="signup">SignUp</a>
-        <a href="/login" class="login">Login</a>
+        <a id="createBook" href="/books/create">Create Book</a>
+        <a id="quotes" href="/quotes">All Quotes</a>
+        <a id="home" href="/">Home</a>
+        <a id="myPage" href="/myPage">MyPage</a>
+        <th:block th:if="${loggedIn}">
+            <a id="logout" href="/" class="login">Logout</a>
+        </th:block>
+        <th:block th:unless="${loggedIn}">
+            <a id="login" href="/login" class="logout">LogIn</a>
+        </th:block>
     </div>
     <div>
         <div class="form-inline">
@@ -149,6 +199,14 @@ if (addButton) {
         }
     });
 }
+
+  //로그아웃
+document.getElementById('logout').addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작인 링크 이동을 막음
+        localStorage.removeItem("access_token");
+        document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = '/';
+});
 
 
 </script>

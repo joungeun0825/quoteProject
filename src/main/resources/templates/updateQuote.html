@@ -146,6 +146,7 @@
   <div class="form-container">
     <input type="hidden" id="bookId" th:value="${book.id}" />
     <input type="hidden" id="userId" th:value="${user.id}" />
+    <input type="hidden" id="quoteId" th:value="${quote.id}" />
     <div id="book-info">
       <a id="title">TITLE</a>
       <a th:text="${book.title}"></a>
@@ -161,7 +162,7 @@
       <div class="form-group">
         <input type="text" id="content"/>
       </div>
-      <button id="quote-create-btn" type="submit" class="btn btn-primary">등록</button>
+      <button id="quote-create-btn" type="submit" class="btn btn-primary">수정</button>
     </form>
   </div>
 </div>
@@ -174,7 +175,7 @@
 const quoteCreateButton = document.getElementById('quote-create-btn');
 var bookId = document.getElementById('bookId').value;
 var userId = document.getElementById('userId').value;
-
+var quoteId = document.getElementById('quoteId').value;
 if (quoteCreateButton) {
     quoteCreateButton.addEventListener('click', event => {
         body = JSON.stringify({
@@ -182,7 +183,7 @@ if (quoteCreateButton) {
                 page: document.getElementById('page').value
         })
 
-        httpRequest('POST',`/api/books/${bookId}/quotes/${userId}`, body, success, fail);
+        httpRequest('PUT',`/api/books/${bookId}/quotes/${userId}/${quoteId}`, body, success, fail);
     });
 }
 
