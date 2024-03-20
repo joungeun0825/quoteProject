@@ -5,69 +5,67 @@
   <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #F2F2F0;
+            background-image: radial-gradient(circle, #A0C4F2, #F2F9FF);
         }
         .header {
-            background-color: #F2F2F0;
-            padding: 15px;
-            border-bottom: 2px solid #000000;
+            padding: 20px 10px;
+            border-bottom: 2px solid #4E64A6;
+            width: 98%; /* 또는 원하는 너비값 */
+            margin: 0 auto;
         }
         #createBook{
-           color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
             font-size: 18px;
+            color: #4E64A6;
         }
         #quotes{
-           color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
             padding-right: 410px;
             border-radius: 5px;
-            background-color: #F2F2F0;
             font-size: 18px;
+            color: #4E64A6;
         }
         #home{
-            color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
-            padding-right: 480px;
+            padding-right: 500px;
             border-radius: 5px;
-            background-color: #F2F2F0;
             font-size: 18px;
+            color: #4E64A6;
         }
 
         #myPage {
-            color: #000000;
             text-decoration: none;
-            margin: 0 10px;
-            padding: 8px 15px;
+            margin: 0 2px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
+            background-color: rgba(255, 255, 255, 0.2);
             font-size: 18px;
+            color: #4E64A6;
         }
         #login {
-            color: #000000;
             text-decoration: none;
-            margin: 0 10px;
-            padding: 8px 15px;
+            margin: 0 2px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
+            background-color: rgba(255, 255, 255, 0.2);
             font-size: 18px;
+            color: #4E64A6;
         }
         #logout {
-            color: #000000;
             text-decoration: none;
-            margin: 0 10px;
-            padding: 8px 15px;
+            margin: 0 2px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
+            background-color: rgba(255, 255, 255, 0.5);
             font-size: 18px;
+            color: #4E64A6;
         }
 
         .form-container {
@@ -85,46 +83,41 @@
             height: 300px;
             text-align: center;
             font-size: 16px;
-            background-color: #F2F2F0;
-            border: 2px solid #000000;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 5px;
         }
 
         #page {
-            width: 500px;
-            background-color: #F2F2F0;
+            width: 483px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 10px;
             border: none;
-            border-bottom: 2px solid #000000;
-            padding: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         #quote-create-btn {
-            border: 2px solid #000000;
-            background-color: #F2F2F0;
-            padding: 4px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border: none;
             margin-left: 10px;
         }
-        #book-info {
-          width: 500px;
-          margin-top: 20px;
-          border-bottom: 2px solid #000000;
-          font-size: 16px; /* 폰트 크기 조정 */
-          text-align: left; /* 볼드체 추가 */
+        table {
+            width: 100%; /* 조절 가능한 table width 값 */
+            margin-top: 40px; /* 조절 가능한 margin 값 */
+            margin-bottom: 10px;
+            border-collapse: collapse;
+            color: #4E64A6;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.2);
         }
-        #title {
-          margin-bottom: 8px; /* 각 항목 간의 간격 조정 */
-          font-size: 20px; /* 폰트 크기 조정 */
-          font-weight: bold; /* 볼드체 추가 */
-        }
-        #author {
-          margin-bottom: 8px; /* 각 항목 간의 간격 조정 */
-          font-size: 20px; /* 폰트 크기 조정 */
-          font-weight: bold; /* 볼드체 추가 */
-        }
-        #publisher {
-          margin-bottom: 8px; /* 각 항목 간의 간격 조정 */
-          font-size: 20px; /* 폰트 크기 조정 */
-          font-weight: bold; /* 볼드체 추가 */
+        th, td {
+            text-align: center;
+            border-radius: 10px;/* 테두리 선 추가 */
+            padding: 8px; /* 셀 안의 여백 추가 */
         }
     </style>
 </head>
@@ -148,12 +141,18 @@
     <input type="hidden" id="userId" th:value="${user.id}" />
     <input type="hidden" id="quoteId" th:value="${quote.id}" />
     <div id="book-info">
-      <a id="title">TITLE</a>
-      <a th:text="${book.title}"></a>
-      <a id="author">AUTHOR</a>
-      <a th:text="${book.author}"></a>
-      <a id="publisher">PUBLISHER</a>
-      <a th:text="${book.publisher}"></a>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>TITLE</th>
+          <td th:text="${book.title}"></td>
+          <th>AUTHOR</th>
+          <td th:text="${book.author}"></td>
+          <th>PUBLISHER</th>
+          <td th:text="${book.publisher}"></td>
+        </tr>
+        </thead>
+      </table>
     </div>
     <form class="form-inline">
       <div class="form-group">
@@ -174,7 +173,6 @@
 
 const quoteCreateButton = document.getElementById('quote-create-btn');
 var bookId = document.getElementById('bookId').value;
-var userId = document.getElementById('userId').value;
 var quoteId = document.getElementById('quoteId').value;
 if (quoteCreateButton) {
     quoteCreateButton.addEventListener('click', event => {
@@ -183,7 +181,7 @@ if (quoteCreateButton) {
                 page: document.getElementById('page').value
         })
 
-        httpRequest('PUT',`/api/books/${bookId}/quotes/${userId}/${quoteId}`, body, success, fail);
+        httpRequest('PUT',`/api/books/${bookId}/quotes/${quoteId}`, body, success, fail);
     });
 }
 
@@ -241,12 +239,11 @@ function getCookie(key) {
 }
 function success() {
             alert('등록 완료되었습니다.');
-            location.replace(`/books/${bookId}/quotes`);
+            location.replace(`/myPage`);
 }
 
 function fail() {
-            alert('등록 실패했습니다.');
-            location.replace(`/books/${bookId}/quotes`);
+            location.replace(`/myPage`);
 }
 
   //로그아웃

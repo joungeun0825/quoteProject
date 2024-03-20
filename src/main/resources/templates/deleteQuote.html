@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="hidden" id="bookId" th:value="${book.id}" />
+<input type="hidden" id="quoteId" th:value="${quote.id}" />
+</body>
+<script>
+var bookId = document.getElementById('bookId').value;
+var quoteId = document.getElementById('quoteId').value;
+fetch(`/api/books/${bookId}/quotes/${quoteId}`, {
+        method: 'DELETE',
+        headers: { // 로컬 스토리지에서 액세스 토큰 값을 가져와 헤더에 추가
+            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+        }
+    }).then(response => {
+        if (response.status === 200 || response.status === 201) {
+            success();
+        }
+
+});
+
+function success() {
+            alert('삭제 완료되었습니다.');
+}
+location.replace(`/myPage`);
+</script>
+</html>

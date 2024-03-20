@@ -2,71 +2,69 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <style>
-        body {
+    body {
             font-family: 'Arial', sans-serif;
-            background-color: #F2F2F0;
+            background-image: radial-gradient(circle, #A0C4F2, #F2F9FF);
         }
         .header {
-            background-color: #F2F2F0;
-            padding: 15px;
-            border-bottom: 2px solid #000000;
+            padding: 20px 10px;
+            border-bottom: 2px solid #4E64A6;
+            width: 98%; /* 또는 원하는 너비값 */
+            margin: 0 auto;
         }
         #createBook{
-           color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
             font-size: 18px;
+            color: #4E64A6;
         }
         #quotes{
-           color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
             padding-right: 410px;
             border-radius: 5px;
-            background-color: #F2F2F0;
             font-size: 18px;
+            color: #4E64A6;
         }
         #home{
-            color: #000000;
             text-decoration: none;
             margin: 0 10px;
             padding: 8px 15px;
-            padding-right: 480px;
+            padding-right: 500px;
             border-radius: 5px;
-            background-color: #F2F2F0;
             font-size: 18px;
+            color: #4E64A6;
         }
 
         #myPage {
-            color: #000000;
             text-decoration: none;
-            margin: 0 10px;
-            padding: 8px 15px;
+            margin: 0 2px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
+            background-color: rgba(255, 255, 255, 0.2);
             font-size: 18px;
+            color: #4E64A6;
         }
         #login {
-            color: #000000;
             text-decoration: none;
-            margin: 0 10px;
-            padding: 8px 15px;
+            margin: 0 2px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
+            background-color: rgba(255, 255, 255, 0.2);
             font-size: 18px;
+            color: #4E64A6;
         }
         #logout {
-            color: #000000;
             text-decoration: none;
-            margin: 0 10px;
-            padding: 8px 15px;
+            margin: 0 2px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: #F2F2F0;
+            background-color: rgba(255, 255, 255, 0.5);
             font-size: 18px;
+            color: #4E64A6;
         }
 
         .form-inline {
@@ -84,37 +82,40 @@
         #search-btn {
             font-family: 'Arial', sans-serif;
             padding: 8px;
-            background-color: #F2F2F0;
-            border: 2px solid #000000;
+            color: #4E64A6;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            border-radius: 2px;
+            border: None;
         }
         #add-btn {
             font-family: 'Arial', sans-serif;
             padding: 7.1px;
-            background-color: #F2F2F0;
-            border: 2px solid #000000;
+            border-radius: 2px;
+            border: None;
         }
         #searchText{
             width: 300px;
         }
-
-
         #searchCategory:focus,
         #searchText:focus,
         #search-btn:focus {
             outline: none;
+            background-color: #FFFFFF;
         }
         table {
             width: 80%; /* 조절 가능한 table width 값 */
             margin-top: 20px; /* 조절 가능한 margin 값 */
             border-collapse: collapse;
+            color: #4E64A6;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.3);
         }
         th, td {
             text-align: center;
-            border: 2px solid #000000; /* 테두리 선 추가 */
+            border-radius: 10px;/* 테두리 선 추가 */
             padding: 8px; /* 셀 안의 여백 추가 */
-        }
-        th {
-            background-color: #F2F2F0; /* 헤더 배경색 지정 */
         }
     </style>
 </head>
@@ -160,7 +161,9 @@
           <td th:text="${item.book.title}"></td>
           <td th:text="${item.book.author}"></td>
           <td th:text="${item.book.publisher}"></td>
-          <td th:text="${item.content}"></td>
+          <td>
+            <span th:text="${#strings.length(item.content) > 10 ? #strings.substring(item.content, 0, 10) + '...' : item.content}"></span>
+          </td>
           <td th:text="${item.page}"></td>
           <td>
             <a th:href="@{/books/{id}/quotes/{quoteId}(id=${item.book.id},quoteId=${item.id})}" class="btn btn-primary">책갈피 자세히 보기</a>
