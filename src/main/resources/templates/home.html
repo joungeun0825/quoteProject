@@ -48,6 +48,15 @@
             font-size: 18px;
             color: #4E64A6;
         }
+        #signup {
+            text-decoration: none;
+            margin: 0 2px;
+            padding: 11px 15px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+            color: #4E64A6;
+        }
         #login {
             text-decoration: none;
             margin: 0 2px;
@@ -69,7 +78,7 @@
 
         label {
             display: block;
-            margin-top: 220px;
+            margin-top: 250px;
             margin-bottom: 20px;
             font-size: 25px;
             color: #4E64A6;
@@ -109,11 +118,12 @@
         <a id="createBook" href="/books/create">Create Book</a>
         <a id="quotes" href="/quotes">All Quotes</a>
         <a id="home" href="/">Home</a>
-        <a id="myPage" href="/myPage">MyPage</a>
         <th:block th:if="${loggedIn}">
+            <a id="myPage" href="/myPage">MyPage</a>
             <a id="logout" href="/" class="login">Logout</a>
         </th:block>
         <th:block th:unless="${loggedIn}">
+            <a id="signup" href="/signup">SignUp</a>
             <a id="login" href="/login" class="logout">LogIn</a>
         </th:block>
     </div>
@@ -159,6 +169,7 @@ if (searchButton) {
     function searchParam(key) {
         return new URLSearchParams(location.search).get(key);
     }
+
 
     document.getElementById('logout').addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작인 링크 이동을 막음

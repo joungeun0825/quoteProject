@@ -2,7 +2,7 @@ INSERT INTO book (title, author, publisher, created_at, updated_at) VALUES ('쇼
 INSERT INTO book (title, author, publisher, created_at, updated_at) VALUES ('어떤 물질의 사랑', '천선란', '아작', NOW(), NOW())
 INSERT INTO book (title, author, publisher, created_at, updated_at) VALUES ('우정도둑', '유지혜', '리더스원', NOW(), NOW())
 
-INSERT INTO users (email, nickname,refresh_token_id,password) VALUES ('j@naver.com','j',null,null)
+INSERT INTO users (username, nickname,refresh_token_id,password) VALUES ('j','j',null,null)
 
 INSERT INTO quote (content, page, book_id, created_at, updated_at, user_id) VALUES ('시간이 지나고 하나의 관계가 끝날 때마다 나는 누가 떠나는 쪽이고 누가 남겨지는 쪽인지 생각했다. 어떤 경우 나는 떠났고, 어떤 경우 남겨졌지만 정말 소중한 관계가 부서졌을 때는 누가 떠나고 누가 남겨지는 쪽인지 알 수 없었다.', 89, 1, NOW(), NOW(),1)
 INSERT INTO quote (content, page, book_id, created_at, updated_at, user_id) VALUES ('이 노인은 얼마나 여러 번 사랑하는 사람들을 잃어버렸을까. 여자는 노인들을 볼 때마다 그런 존경심을 느꼈다. 오래 살아가는 일이란, 사랑하는 사람들을 먼저 보내고 오래도록 남겨지는 일이니까. 그런 일들을 겪곧 다시 일어나 밥을 먹고 홀로 길을 걸어나가야 하는 일이니까.', 238, 1, NOW(), NOW(),1)
