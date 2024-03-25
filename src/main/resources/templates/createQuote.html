@@ -87,6 +87,22 @@
             margin: 10px;
         }
 
+        .selected-tags {
+          margin-top: 10px;
+        }
+        .selected-tag {
+          display: inline-block;
+          background-color: rgba(255, 255, 255, 0.3);
+          padding: 5px 10px;
+          font-size: 16px;
+          margin-right: 5px;
+          border-radius: 5px;
+        }
+        .cancel-btn {
+          margin-left: 5px;
+          cursor: pointer;
+        }
+
         #content {
             width: 500px;
             height: 300px;
@@ -106,12 +122,38 @@
             margin-bottom: 10px;
         }
 
-        #quote-create-btn {
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.2);
+        #selectedTags{
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        #textInput{
+            border-radius: 5px 5px 0 0;
+            width: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
             padding: 10px;
             border: none;
             margin-left: 10px;
+        }
+        #tagList{
+            width: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        #quote-create-btn {
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border: none;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        label{
+          font-family: 'Arial', sans-serif;
         }
         table {
             width: 100%; /* 조절 가능한 table width 값 */
@@ -169,7 +211,16 @@
       <div class="form-group">
         <input type="text" id="content"/>
       </div>
-      <button id="quote-create-btn" type="submit" class="btn btn-primary">등록</button>
+      <div>
+        <input type="text" id="textInput" placeholder="책갈피를 표현하는 태그를 걸어보세요.">
+        <div id="tagList">
+          <div th:each="tag : ${tags}" th:id="'tag-' + ${tag.id}" class="tag" th:text="${tag.tag}" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="selected-tags" id="selectedTags"></div>
+      <div>
+        <button id="quote-create-btn" type="submit" class="btn btn-primary">등록</button>
+      </div>
     </form>
   </div>
 </div>
@@ -177,7 +228,69 @@
 </body>
 
 <script>
+// 입력 필드 요소 가져오기
+const inputField = document.getElementById('textInput');
+// Thymeleaf의 태그들을 담고 있는 요소 가져오기
+const tagElements = document.querySelectorAll('#tagList .tag');
+// 선택된 태그들을 표시할 영역 요소 가져오기
+const selectedTagsContainer = document.getElementById('selectedTags');
 
+// 선택된 태그를 담을 배열 초기화
+let selectedTags = [];
+let tagIds = [];
+
+// 입력 필드에 input 이벤트 리스너 추가
+inputField.addEventListener('input', function(event) {
+    const inputValue = event.target.value.toLowerCase(); // 입력된 값
+    tagElements.forEach(function(tagElement) {
+        const tagValue = tagElement.textContent.toLowerCase(); // Thymeleaf 태그의 값
+        if (tagValue.includes(inputValue)) {
+            tagElement.style.display = 'block'; // 일치하는 태그는 표시
+        } else {
+            tagElement.style.display = 'none'; // 일치하지 않는 태그는 숨김
+        }
+    });
+});
+
+// 각 태그에 클릭 이벤트 리스너 추가
+tagElements.forEach(function(tagElement) {
+    tagElement.addEventListener('click', function(event) {
+      const selectedValue = event.target.textContent; // 클릭한 태그의 값
+      const selectedId = event.target.getAttribute('id').replace('tag-', ''); // Thymeleaf의 id에서 'tag-'를 제거하여 id 추출
+      // 선택된 태그 배열에 추가
+      selectedTags.push(selectedValue);
+      tagIds.push(selectedId); // 선택된 태그의 id를 추가
+      // 선택된 태그들을 표시할 영역 업데이트
+      updateSelectedTags();
+  });
+});
+
+// 선택된 태그들을 표시하는 함수
+function updateSelectedTags() {
+    selectedTagsContainer.innerHTML = ''; // 표시 영역 초기화
+    selectedTags.forEach(function(tag, index) {
+        // 각 선택된 태그를 생성하여 표시 영역에 추가
+        const tagElement = document.createElement('div');
+        tagElement.classList.add('selected-tag');
+        tagElement.textContent = tag;
+        selectedTagsContainer.appendChild(tagElement);
+
+        // 취소 버튼 생성
+        const cancelButton = document.createElement('span');
+        cancelButton.textContent = 'x';
+        cancelButton.classList.add('cancel-btn');
+        cancelButton.addEventListener('click', function() {
+            // 선택된 태그 배열에서 해당 태그 제거
+            selectedTags.splice(index, 1);
+            // 선택된 태그의 id도 함께 제거
+            tagIds.splice(index, 1);
+            // 선택된 태그들을 표시할 영역 업데이트
+            updateSelectedTags();
+        });
+        // 취소 버튼을 선택된 태그 옆에 추가
+        tagElement.appendChild(cancelButton);
+    });
+}
 
 const quoteCreateButton = document.getElementById('quote-create-btn');
 var bookId = document.getElementById('bookId').value;
@@ -185,50 +298,36 @@ var userId = document.getElementById('userId').value;
 
 if (quoteCreateButton) {
     quoteCreateButton.addEventListener('click', event => {
-        body = JSON.stringify({
+        // tagIds를 쿼리 파라미터 형식으로 변환
+        const tagParams = tagIds.map(tagId => `tagId=${tagId}`).join('&');
+        // 최종 URL 생성
+        const url = `/api/books/${bookId}/quotes/${userId}?${tagParams}`;
+        var body = JSON.stringify({
                 content: document.getElementById('content').value,
                 page: document.getElementById('page').value
+        });
+        event.preventDefault();
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                "Authorization": 'Bearer ' + localStorage.getItem('access_token'),
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                content: document.getElementById('content').value,
+                page: document.getElementById('page').value
+            })
+        }).then(() => {
+            alert('등록 완료되었습니다.');
+            location.replace(`/books/${bookId}/quotes`);
         })
-
-        httpRequest('POST',`/api/books/${bookId}/quotes/${userId}`, body, success, fail);
+        .catch(error => {
+            alert.error('오류가 발생하였습니다:', error);
+        });
     });
 }
 
-// HTTP 요청을 보내는 함수
-function httpRequest(method, url, body, success, fail) {
-    fetch(url, {
-        method: method,
-        headers: { // 로컬 스토리지에서 액세스 토큰 값을 가져와 헤더에 추가
-            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-            'Content-Type': 'application/json',
-        },
-        body: body,
-    }).then(response => {
-        if (response.status === 200 || response.status === 201) {
-            success();
-        }
-        const refresh_token = getCookie('refresh_token');
 
-        if (response.status === 401 && refresh_token) {
-            fetch('/api/token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    refreshToken: getCookie('refresh_token'),
-                }),
-            }).then(result => { // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
-                    localStorage.setItem('access_token', result.accessToken);
-                    alert('access_token')
-                    httpRequest(method, url, body, success, fail);
-                })
-                .catch(error => fail());
-        } else {
-            fail();
-        }
-    });
-}
 
 // 쿠키를 가져오는 함수
 function getCookie(key) {

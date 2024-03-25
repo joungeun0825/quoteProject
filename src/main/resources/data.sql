@@ -4,6 +4,14 @@ INSERT INTO book (title, author, publisher, created_at, updated_at) VALUES ('우
 
 INSERT INTO users (username, nickname,refresh_token_id,password) VALUES ('j','j',null,null)
 
+INSERT INTO Tag (tag) VALUES ('감동')
+INSERT INTO Tag (tag) VALUES ('위로')
+INSERT INTO Tag (tag) VALUES ('재미')
+INSERT INTO Tag (tag) VALUES ('지식')
+INSERT INTO Tag (tag) VALUES ('슬픔')
+INSERT INTO Tag (tag) VALUES ('행복')
+INSERT INTO Tag (tag) VALUES ('응원')
+
 INSERT INTO quote (content, page, book_id, created_at, updated_at, user_id) VALUES ('시간이 지나고 하나의 관계가 끝날 때마다 나는 누가 떠나는 쪽이고 누가 남겨지는 쪽인지 생각했다. 어떤 경우 나는 떠났고, 어떤 경우 남겨졌지만 정말 소중한 관계가 부서졌을 때는 누가 떠나고 누가 남겨지는 쪽인지 알 수 없었다.', 89, 1, NOW(), NOW(),1)
 INSERT INTO quote (content, page, book_id, created_at, updated_at, user_id) VALUES ('이 노인은 얼마나 여러 번 사랑하는 사람들을 잃어버렸을까. 여자는 노인들을 볼 때마다 그런 존경심을 느꼈다. 오래 살아가는 일이란, 사랑하는 사람들을 먼저 보내고 오래도록 남겨지는 일이니까. 그런 일들을 겪곧 다시 일어나 밥을 먹고 홀로 길을 걸어나가야 하는 일이니까.', 238, 1, NOW(), NOW(),1)
 INSERT INTO quote (content, page, book_id, created_at, updated_at, user_id) VALUES ('하지만 저는 사막에 가본 적이 없어요.사람이 보는 것을 쓰는 건 아니잖니. 본다고 믿는 것을 쓰지.나는 아버지의 말을 이해하지 못했다. 아버지와 생각이 전혀 다르기 때문일지도 모르겠다. 사람들은 본다고 믿는 것을 쓰는 게 아니라 믿는 것만 본다. 그래서 보는 것만 쓸 수 있다고.', 32, 2, NOW(), NOW(),1)

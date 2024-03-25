@@ -74,7 +74,7 @@
         }
 
         article {
-            flex: 2;
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -140,6 +140,17 @@
             border-radius: 2px;
             border: None;
         }
+        #tag {
+            font-family: 'Arial', sans-serif;
+            padding: 9px 10px;
+            color: #4E64A6;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            border-radius: 20px;
+            border: None;
+            margin: 3px;
+            align-item: left;
+        }
 
         .comment-table {
             margin-top: 10px;
@@ -169,7 +180,7 @@
     <section>
         <article3></article3>
         <article>
-            <table class="table table-striped quote-table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>TITLE</th>
@@ -185,13 +196,17 @@
                 </tr>
                 </thead>
             </table>
-            <table class="table-striped quote-table">
+            <table class="table table-striped quote-table">
                 <thead>
                 <tr>
-                    <td th:text="${quote.content}"></td>
+                    <td class="content-text" th:text="${quote.content}"></td>
                 </tr>
                 </thead>
             </table>
+            </br>
+            <div>
+                <a th:each="tag : ${tags}" id="tag" th:text="${tag.tag.tag}"></a>
+            </div>
         </article>
         <article2>
             <div style="width: 95%;">

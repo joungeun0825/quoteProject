@@ -23,8 +23,6 @@ public class CommentController {
 
     private final UserService userService;
     private final CommentService commentService;
-    private final QuoteService quoteService;
-
     @PostMapping("/api/books/{bookId}/quotes/{quoteId}/{userId}/comment")
     public ResponseEntity<Comment> postComment(@PathVariable("bookId") Long bookId,@PathVariable("quoteId") Long quoteId, @RequestBody AddCommentRequest request, @PathVariable("userId") Long userId
     ) {
