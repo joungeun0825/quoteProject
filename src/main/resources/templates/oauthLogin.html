@@ -81,9 +81,11 @@
   </style>
 </head>
 <body>
+
 <div>
   <div class="card">
     <p id="label">LOGIN</p>
+    <p id="login-error" style="color: red;"></p>
     <p>Please login to use this service</p>
     <form class="form-inline">
       <div>
@@ -122,10 +124,13 @@ if (loginButton) {
                 const redirectedUrl = response.url;
                 // 새로운 URL로 이동합니다.
                 window.location.href = redirectedUrl;
+            } else {
+                // 응답이 성공이 아닌 경우 로그인 실패 메시지를 표시합니다.
+                document.getElementById('login-error').innerText = '로그인에 실패하였습니다.';
             }
         })
         .catch(error => {
-            alert.error('로그인 요청 중 오류가 발생하였습니다:', error);
+            alert('로그인 요청 중 오류가 발생하였습니다:', error);
         });
     });
 }

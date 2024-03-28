@@ -1,21 +1,45 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script src="https://kit.fontawesome.com/8a64ae10ae.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background-image: radial-gradient(circle, #A0C4F2, #F2F9FF);
         }
+
         .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 20px 10px;
             border-bottom: 2px solid #4E64A6;
-            width: 98%; /* 또는 원하는 너비값 */
+            width: 98%;
             margin: 0 auto;
+        }
+       .menu, .user-area {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start; /* 왼쪽 정렬 */
+        }
+
+        .menu {
+            justify-content: flex-start; /* 왼쪽 정렬 */
+        }
+
+        .logo {
+            flex: 1;
+            display: flex;
+            justify-content: center; /* 가운데 정렬 */
+        }
+
+        .user-area {
+            justify-content: flex-end; /* 오른쪽 정렬 */
         }
         #createBook{
             text-decoration: none;
             margin: 0 10px;
-            padding: 8px 15px;
+            padding: 8px 8px;
             border-radius: 5px;
             font-size: 18px;
             color: #4E64A6;
@@ -23,8 +47,7 @@
         #quotes{
             text-decoration: none;
             margin: 0 10px;
-            padding: 8px 15px;
-            padding-right: 410px;
+            padding: 8px 8px;
             border-radius: 5px;
             font-size: 18px;
             color: #4E64A6;
@@ -32,8 +55,7 @@
         #home{
             text-decoration: none;
             margin: 0 10px;
-            padding: 8px 15px;
-            padding-right: 500px;
+            padding: 4px 4px;
             border-radius: 5px;
             font-size: 18px;
             color: #4E64A6;
@@ -41,7 +63,7 @@
 
         #myPage {
             text-decoration: none;
-            margin: 0 2px;
+            margin: 0 10px;
             padding: 11px 15px;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.2);
@@ -50,7 +72,7 @@
         }
         #signup {
             text-decoration: none;
-            margin: 0 2px;
+            margin: 0 10px;
             padding: 11px 15px;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.2);
@@ -59,7 +81,7 @@
         }
         #login {
             text-decoration: none;
-            margin: 0 2px;
+            margin: 0 10px;
             padding: 11px 15px;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.2);
@@ -68,7 +90,7 @@
         }
         #logout {
             text-decoration: none;
-            margin: 0 2px;
+            margin: 0 10px;
             padding: 11px 15px;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.5);
@@ -78,7 +100,7 @@
 
         label {
             display: block;
-            margin-top: 250px;
+            margin-top: 100px;
             margin-bottom: 20px;
             font-size: 25px;
             color: #4E64A6;
@@ -93,7 +115,7 @@
         }
         #searchCategory,
         #searchText,
-        #search-btn {
+        #search-btn{
             font-family: 'Arial', sans-serif;
             padding: 7px;
             color: #4E64A6;
@@ -103,43 +125,101 @@
             border: None;
         }
         #searchText{
-            width: 420px;
+            width: 30%;
+        }
+        #randomTag{
+            color: #4E64A6;
+            font-size: 18px;
         }
         #searchCategory:focus,
         #searchText:focus,
         #search-btn:focus {
             outline: none;
         }
+        #quoteContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #prevBtn {
+            font-family: 'Arial', sans-serif;
+            margin-left: auto;
+            padding: 7px;
+            color: #4E64A6;
+            background-color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            border-radius: 5px;
+            border: None;
+        }
+        #nextBtn {
+            font-family: 'Arial', sans-serif;
+            margin-right: auto;
+            padding: 7px;
+            color: #4E64A6;
+            background-color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            border-radius: 5px;
+            border: None;
+        }
+
+        .quote {
+            width: 30%; /* 원하는 너비값으로 조정 */
+            margin: 10px; /* 가운데 정렬을 위한 margin 설정 */
+            border: none;
+            padding: 20px;
+            border-radius: 8px;
+            color: #4e64a6;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <a id="createBook" href="/books/create">Create Book</a>
-        <a id="quotes" href="/quotes">All Quotes</a>
-        <a id="home" href="/">Home</a>
-        <th:block th:if="${loggedIn}">
-            <a id="myPage" href="/myPage">MyPage</a>
-            <a id="logout" href="/" class="login">Logout</a>
-        </th:block>
-        <th:block th:unless="${loggedIn}">
-            <a id="signup" href="/signup">SignUp</a>
-            <a id="login" href="/login" class="logout">LogIn</a>
-        </th:block>
+        <div class="menu">
+            <a id="createBook" href="/books/create">Create Book</a>
+            <a id="quotes" href="/quotes">All Quotes</a>
+        </div>
+        <div class="logo">
+            <a id="home" href="/">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+        <div class="user-area">
+            <th:block th:if="${loggedIn}">
+                <a id="myPage" href="/myPage">MyPage</a>
+                <a id="logout" href="/" class="login">Logout</a>
+            </th:block>
+            <th:block th:unless="${loggedIn}">
+                <a id="signup" href="/signup">SignUp</a>
+                <a id="login" href="/login" class="logout">LogIn</a>
+            </th:block>
+        </div>
     </div>
     <div>
         <div class="form-inline">
             <label for="searchText">Bookmark The Parts You Want To Remember In The Book</label>
             <form>
-                    <select id="searchCategory">
-                        <option value="all">전체보기</option>
-                        <option value="title">Title</option>
-                        <option value="publisher">Publisher</option>
-                        <option value="author">Author</option>
-                    </select>
-                    <input type="text" id="searchText"/>
-                    <button id="search-btn" type="submit">Search</button>
+                <select id="searchCategory">
+                    <option value="all">전체보기</option>
+                    <option value="title">Title</option>
+                    <option value="publisher">Publisher</option>
+                    <option value="author">Author</option>
+                </select>
+                <input type="text" id="searchText"/>
+                <button id="search-btn" type="submit">Search</button>
             </form>
+
+            <label id="randomTag" th:text="'#' + ${randomTag.tag} + '에 관한 책갈피를 만나보세요'"></label>
+
+            <div id="quoteContainer">
+                <button id="prevBtn" >&#60;</button>
+                <a class="quote" th:each="quote : ${quotes}" th:text="${quote.content}" style="display: none;"></a>
+                <button id="nextBtn">&#62;</button>
+            </div>
         </div>
     </div>
 </div> <!-- /container -->
@@ -159,6 +239,37 @@ if (searchButton) {
             });
     });
 }
+// 현재 보이는 quote의 인덱스를 추적하는 변수
+    let currentQuoteIndex = 0;
+
+    // 모든 quote 요소를 가져옴
+    const quotes = document.querySelectorAll('.quote');
+
+    // 초기에 첫 번째 quote를 표시
+    showQuote(currentQuoteIndex);
+
+    // 다음 버튼 이벤트 리스너 등록
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+        showQuote(currentQuoteIndex);
+    });
+
+    // 이전 버튼 이벤트 리스너 등록
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+        showQuote(currentQuoteIndex);
+    });
+
+    // 인덱스에 해당하는 quote를 표시하고 나머지는 숨김
+    function showQuote(index) {
+        quotes.forEach((quote, idx) => {
+            if (idx === index) {
+                quote.style.display = 'block';
+            } else {
+                quote.style.display = 'none';
+            }
+        });
+    }
     //토큰
     const token = searchParam('token')
 

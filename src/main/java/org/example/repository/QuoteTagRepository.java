@@ -22,7 +22,7 @@ public class QuoteTagRepository {
     }
     public Optional<QuoteTag> selectQuoteTag(Long quoteTagId) {
         try {
-            QuoteTag result = em.createQuery("select t from QuoteTag t where t.id =:quoteTagId", QuoteTag.class)
+            QuoteTag result = em.createQuery("select qt from QuoteTag qt where qt.id =:quoteTagId", QuoteTag.class)
                     .setParameter("quoteTagId", quoteTagId)
                     .getSingleResult();
             return Optional.of(result);
@@ -36,9 +36,25 @@ public class QuoteTagRepository {
 
     public Optional<List<QuoteTag>> selectAllTag() {
         try {
-            List<QuoteTag> result = em.createQuery("select t from Tag t", QuoteTag.class)
+            List<QuoteTag> result = em.createQuery("select qt from QuoteTag qt", QuoteTag.class)
                     .getResultList();
+
             return Optional.of(result);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        } catch (NonUniqueResultException e) {
+            // Handle non-unique result case if needed
+            return Optional.empty();
+        }
+
+    }
+
+    public Optional<List<QuoteTag>> selectQuotes(Long randomTagId) {
+        try {
+            List<QuoteTag> quoteTags = em.createQuery("select qt from QuoteTag qt where qt.tag.id =:randomTagId", QuoteTag.class)
+                    .setParameter("randomTagId", randomTagId)
+                    .getResultList();
+            return Optional.of(quoteTags);
         } catch (NoResultException e) {
             return Optional.empty();
         } catch (NonUniqueResultException e) {

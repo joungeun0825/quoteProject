@@ -28,4 +28,9 @@ public class TagService {
         }
         return tags;
     }
+
+    @Transactional(readOnly = true)
+    public List<Tag> selectAllTags(){
+        return tagRepository.findAllTags();
+    }
 }

@@ -5,127 +5,161 @@
     <title>Title</title>
 
     <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-image: radial-gradient(circle, #A0C4F2, #F2F9FF);
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-    }
-    #label {
-        font-size: 30px;
-        color: #4E64A6;
-    }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: radial-gradient(circle, #A0C4F2, #F2F9FF);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        label{
+            font-size: 15px;
+            color: #4E64A6;
+            align-item: left;
+        }
 
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+        #label {
+            font-size: 30px;
+            color: #4E64A6;
+        }
 
-    .card {
-        border: None;
-        text-align: center;
-        padding: 20px 20px;
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.4);
-        margin-bottom: 10px;
-    }
-    a,p {
-      color: #4E64A6; /* 링크의 색상을 빨간색(#ff0000)으로 변경 */
-      text-decoration: none; /* 링크 밑줄 제거 */
-    }
-    #id {
-            font-family: 'Arial', sans-serif;
-            padding: 10px 15px;
-            color: #748AC4;
-            background-color: rgba(255, 255, 255, 0.8);
-            font-size: 15px;
-            border-radius: 2px;
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
             border: None;
-            margin-bottom: 5px;
-    }
-    #password {
-            font-family: 'Arial', sans-serif;
-            padding: 10px 15px;
-            color: #748AC4;
-            background-color: rgba(255, 255, 255, 0.8);
-            font-size: 15px;
-            border-radius: 2px;
-            border: None;
-            margin-bottom: 5px;
-    }
-    #nickname {
-            font-family: 'Arial', sans-serif;
-            padding: 10px 15px;
-            color: #748AC4;
-            background-color: rgba(255, 255, 255, 0.8);
-            font-size: 15px;
-            border-radius: 2px;
-            border: None;
+            text-align: center;
+            padding: 20px 20px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.4);
             margin-bottom: 10px;
-    }
+        }
 
-    #sign-btn {
-        display: inline-block;
-        padding: 10px 80px;
-        text-decoration: none;
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border:None;
-        font-size: 15px;
-        font-family: 'Arial', sans-serif;
-        color:#4E64A6;
-    }
+        a, p {
+            color: #4E64A6;
+            text-decoration: none;
 
-  </style>
+        }
+        #des,
+        #des2,
+        #des3{
+            color: red;
+            font-size: 10px;
+            align-item: left;
+        }
+
+        #id, #password, #nickname {
+            font-family: 'Arial', sans-serif;
+            padding: 10px 15px;
+            color: #748AC4;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            border-radius: 2px;
+            border: None;
+            margin: 10px;
+        }
+
+        #sign-btn {
+            display: inline-block;
+            padding: 10px 80px;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: None;
+            font-size: 15px;
+            font-family: 'Arial', sans-serif;
+            color: #4E64A6;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+    </style>
 </head>
 <body>
+
 <div>
     <div class="card">
         <p id="label">SIGN UP</p>
         <p>Please sign up to use this service</p>
         <form class="form-inline">
             <div>
+                <div>
+                    <label>ID</label>
+                </div>
                 <input type="username" id="id" placeholder="id"/>
+                <div>
+                    <a id="des">아이디는 7~25자 내외로 입력해주세요</a>
+                </div>
             </div>
+            </br>
             <div>
-                <input type="password" id="password" placeholder="password"/>
+                <div>
+                    <label>PW</label>
+                </div>
+                <input type="password" id="password" placeholder="pw"/>
+                <div>
+                    <a id="des2">비밀번호는 8~30 자리이면서 1개 이상의 알파벳, 숫자, 특수문자를 포함해야합니다.</a>
+                </div>
             </div>
+            </br>
             <div>
+                <div>
+                    <label>NickName</label>
+                </div>
                 <input type="nickname" id="nickname" placeholder="nickname"/>
+                <div>
+                    <a id="des3">최소 2글자를 입력해야합니다.</a>
+                </div>
             </div>
+            </br>
             <button id="sign-btn" type="submit">Sign Up</button>
         </form>
+        <div id="error-message-container">
+            <p id="error-message" style="color: red;"></p>
+        </div> <!-- 실패한 이유를 표시할 요소 -->
     </div>
 </div>
 </body>
 <script>
-const signButton = document.getElementById('sign-btn');
+    const signButton = document.getElementById('sign-btn');
 
-if (signButton) {
-    signButton.addEventListener('click', event => {
-        event.preventDefault(); // 기본 동작 막기
-        console.log("Sign up button clicked!"); // 버튼 클릭을 확인하기 위한 로그 출력
-        fetch(`/signup`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: document.getElementById('id').value,
-                password: document.getElementById('password').value,
-                nickname: document.getElementById('nickname').value
-            })
-        }).then(() => {
-            // 새로운 URL로 이동합니다.
-            window.location.href = '/login';
-        })
-        .catch(error => {
-            console.error('회원가입 요청 중 오류가 발생하였습니다:', error); // 오류가 있으면 콘솔에 출력
+    if (signButton) {
+        signButton.addEventListener('click', event => {
+            event.preventDefault(); // 기본 동작 막기
+            console.log("Sign up button clicked!"); // 버튼 클릭을 확인하기 위한 로그 출력
+            fetch(`/signup`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: document.getElementById('id').value,
+                    password: document.getElementById('password').value,
+                    nickname: document.getElementById('nickname').value
+                })
+               }).then(response => {
+                    if (response.ok) { // 응답이 성공적이지 않은 경우
+                        alert("회원가입이 성공했습니다.");
+                        window.location.href = '/login'; // 성공적인 응답인 경우 로그인 페이지로 이동
+                    } else {
+                        alert('회원가입 요청 중 오류가 발생하였습니다.');
+                    }
+                }).catch(error => {
+                    console.error('회원가입 요청 중 오류가 발생하였습니다:', error); // 오류가 있으면 콘솔에 출력
+                    alert('회원가입 요청 중 오류가 발생하였습니다.'); // 오류 메시지를 알림으로 표시
+
+                });
+
         });
-    });
-}</script>
+    }
+</script>
 </html>

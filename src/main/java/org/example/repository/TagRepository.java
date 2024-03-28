@@ -5,10 +5,12 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.example.domain.Quote;
 import org.example.domain.QuoteTag;
 import org.example.domain.Tag;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -31,5 +33,9 @@ public class TagRepository {
             // Handle non-unique result case if needed
             return Optional.empty();
         }
+    }
+    public List<Tag> findAllTags() {
+        return em.createQuery("select t from Tag t", Tag.class)
+                .getResultList();
     }
 }

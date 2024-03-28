@@ -2,7 +2,10 @@ package org.example.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.domain.Quote;
 import org.example.domain.QuoteTag;
+import org.example.domain.Tag;
+import org.example.repository.QuoteRepository;
 import org.example.repository.QuoteTagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import java.util.List;
 public class QuoteTagService {
 
     private final QuoteTagRepository quoteTagRepository;
+    private final QuoteRepository quoteRepository;
 
 
     @Transactional(readOnly = true)
@@ -35,5 +39,19 @@ public class QuoteTagService {
     @Transactional(readOnly = true)
     public List<QuoteTag> selectAllTag(){
         return quoteTagRepository.selectAllTag().orElseThrow(() -> new IllegalArgumentException("not found"));
+    }
+    @Transactional(readOnly = true)
+    public List<Quote> selectQuotes(Tag randomTag){
+        Long randomTagId = randomTag.getId();
+        List<QuoteTag> quoteTags = quoteTagRepository.selectQuotes(randomTagId).orElseThrow(() -> new IllegalArgumentException("not found"));
+
+        List<Quote> quotes = new ArrayList<>();
+
+        for (QuoteTag quoteTag : quoteTags) {
+            Long quoteId = quoteTag.getQuote().getId();
+            Quote quote = quoteRepository.selectQuote(quoteId).orElseThrow(() -> new IllegalArgumentException("not found : " + quoteId));
+            quotes.add(quote);
+        }
+        return quotes;
     }
 }

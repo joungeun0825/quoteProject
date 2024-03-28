@@ -3,6 +3,8 @@ package org.example.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.config.myLogin.SecurityUtil;
+import org.example.controller.MemberException;
+import org.example.controller.MemberExceptionType;
 import org.example.domain.User;
 import org.example.dto.UserSignUpDto;
 import org.example.repository.UserRepository;
@@ -22,7 +24,7 @@ public class MyLoginUserService {
         user.encodePassword(passwordEncoder);
 
         if(userRepository.findByUsername(userSignUpDto.username()).isPresent()){
-            throw new Exception("이미 존재하는 아이디입니다.");
+            throw new MemberException(MemberExceptionType.ALREADY_EXIST_USERNAME);
         }
 
         userRepository.save(user);
@@ -54,7 +56,7 @@ public class MyLoginUserService {
         User user = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new Exception("회원이 존재하지 않습니다"));
 
         if(!user.matchPassword(passwordEncoder, checkPassword) ) {
-            throw new Exception("비밀번호가 일치하지 않습니다.");
+            throw new MemberException(MemberExceptionType.WRONG_PASSWORD);
         }
 
         userRepository.delete(user);
