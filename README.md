@@ -31,6 +31,7 @@
   ![image](https://github.com/joungeun0825/quoteProject/assets/160833920/8e4d0a50-7772-44f9-8cec-e882341aa567)
   - 책 이름, 저자, 출판사 별로 카테고리를 나눠 검색할 수 있습니다.
   - 책이 없으면 책을 생성할 수 있습니다.
+  
     ![image](https://github.com/joungeun0825/quoteProject/assets/160833920/4bf4eeb9-d0c7-438d-a06f-f62436babde4)
   --------------------------------------------------------------------- 
 - 인용구 상세 페이지
