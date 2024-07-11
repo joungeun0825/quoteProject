@@ -4,6 +4,7 @@
 ## 프로젝트 소개
 책에서 인상깊은 구절을 저장할 수 있는 애플리케이션입니다.
 글을 써야하는 상황이나 일상생활 속 인용구가 필요한 상황에 태그나 책 이름, 저자명 등으로 필요한 인용구를 쉽게 찾을 수 있게 도와줍니다.
+
 ## 개발환경
 - **Version** : Java 17
 - **IDE** : IntelliJ
@@ -21,7 +22,7 @@
   ![image](https://github.com/joungeun0825/quoteProject/assets/160833920/5915abcf-529c-485f-94d8-ff7a1110c254)
   - 자체 로그인과 구글 로그인을 모두 구현하였습니다.
 
--모든 인용구 보기
+- 모든 인용구 보기
   ![image](https://github.com/joungeun0825/quoteProject/assets/160833920/e6ad3d58-1edc-46ef-8e61-b3e242a5ddea)
   - 저장된 모든 인용구를 만나볼 수 있습니다.
   - 콘텐츠 내용이나 page로 검색할 수 있습니다.
